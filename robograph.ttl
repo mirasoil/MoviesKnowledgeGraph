@@ -70,7 +70,7 @@
     :hasImage  "alphie.jpg" ;
     :hasSkills  "math, spelling" ;
     :forSale   true ;
-    :releaseDate  "1978-25-06"^^xsd:date ;
+    :releaseDate  "1978-06-25"^^xsd:date ;
     :hasMass  "1.133"^^xsd:decimal .
 
 :Hero  a  :Robot ;
@@ -79,7 +79,7 @@
     :hasImage  "hero.jpg" ;
     :hasSkills  "capable of remembering and repeating back its master's name, singing songs, reciting poems, acting as an alarm clock, and making its own combinations of phonemes to create a robotic gibberish" ;
     :forSale   true ;
-    :releaseDate  "1979-11-15"^^xsd:date ;
+    :releaseDate  "1979-11-11"^^xsd:date ;
     :hasMass  "18"^^xsd:integer .
 
 :NAO  a  :Robot ;
@@ -88,7 +88,7 @@
     :hasImage  "nao.jpg" ;
     :hasSkills  "teach autistic children, testing system of robotic 'autobiographical memory' designed to help train International Space Station crews and assist elderly patients" ;
     :forSale   true ;
-    :releaseDate  "2008-15-08"^^xsd:date ;
+    :releaseDate  "2008-08-15"^^xsd:date ;
     :hasMass  "4.836"^^xsd:decimal .
 
 :Parrot  a  :Robot ;
@@ -97,7 +97,7 @@
     :hasImage  "parrot.jpg" ;
     :hasSkills  "used for experiments with visual-based autonomous navigation, autonomous surveillance, human-machine interaction, aerial reconnaissance, allow programmers to easily build applications for AR Drone in Java" ;
     :forSale   true ;
-    :releaseDate  "2010-25-06"^^xsd:date ;
+    :releaseDate  "2010-06-25"^^xsd:date ;
     :hasMass  "0.3"^^xsd:decimal .
 
 :Scribbler  a  :Robot ;
@@ -106,7 +106,7 @@
     :hasImage  "scribbler.jpg" ;
     :hasSkills  "used in teaching introductory computer science courses, capable of auto navigation and interaction with its environment" ;
     :forSale   true ;
-    :releaseDate  "2010-13-05"^^xsd:date ;
+    :releaseDate  "2010-05-13"^^xsd:date ;
     :hasMass  "0.683"^^xsd:decimal .
 
 
@@ -143,7 +143,7 @@
     :hasImage  "rolly.jpg" ;
     :hasSkills  "an egg-shaped digital robotic music player combining music functions with robotic dancing, can play music streamed directly from any Bluetooth-enabled cell phone" ;
     :forSale   true ;
-    :releaseDate  "2007-20-09"^^xsd:date ;
+    :releaseDate  "2007-09-20"^^xsd:date ;
     :hasMass  "0.218"^^xsd:decimal .
 
 :Manav   a  :Robot ;
@@ -152,7 +152,7 @@
     :hasImage  "manav.jpg" ;
     :hasSkills  "can perform various activities like walking, dancing with the only requirement of human voice commands, has the capability of Binocular vision processing, giving it the ability to perceive depth and perspective" ;
     :forSale   true ;
-    :releaseDate  "2014-15-02"^^xsd:date ;
+    :releaseDate  "2014-02-15"^^xsd:date ;
     :hasMass  "2"^^xsd:decimal .
 
 :BigDog   a  :Robot ;
@@ -170,7 +170,7 @@
     :hasImage  "berserk.jpg" ;
     :hasSkills  "equipped with two four-barrel aircraft machine guns with high rate of fire - up to 6000 rounds per minute" ;
     :forSale   false ;
-    :releaseDate  "2018-22-08"^^xsd:date ;
+    :releaseDate  "2018-08-22"^^xsd:date ;
     :hasMass  "2200"^^xsd:decimal .
 
 :Knifefish   a  :Robot ;
@@ -188,7 +188,7 @@
     :hasImage  "matilda.jpg" ;
     :hasSkills  "used for aggressive situations such as bomb control, drone control, and rugged terrain, it can climb a 50-degree stair incline, capable of producing both color and black and white resolution, a rear fixed black and white resolution camera, two-way audio (audio crossover), and HD radio capabilities" ;
     :forSale   false ;
-    :releaseDate  "2003-20-05"^^xsd:date ;
+    :releaseDate  "2003-05-20"^^xsd:date ;
     :hasMass  "23.58"^^xsd:decimal .
 
 :Phalanx   a  :Robot ;
@@ -197,7 +197,7 @@
     :hasImage  "phalanx.jpg" ;
     :hasSkills  "close-in weapon system for defense against incoming threats such as small boats, surface torpedoes, anti-ship missiles and helicopters, defense role" ;
     :forSale   false ;
-    :releaseDate  "1969-18-08"^^xsd:date ;
+    :releaseDate  "1969-08-18"^^xsd:date ;
     :hasMass  "5700"^^xsd:decimal .
 
 :Alice   a  :Robot ;
@@ -215,7 +215,7 @@
     :hasImage  "dextre.jpg" ;
     :hasSkills  "designed to handle orbital replacement units, able to carry spares to and from worksites and install replacements when failures occur";
     :forSale   false ;
-    :releaseDate  "2008-11-03"^^xsd:date ;
+    :releaseDate  "2008-03-11"^^xsd:date ;
     :hasMass  "1662"^^xsd:decimal .
 
 :Kismet   a  :Robot ;
@@ -224,7 +224,7 @@
     :hasImage  "kismet.jpg" ;
     :hasSkills  "can recognize and simulate emotions, simulates emotion through various facial expressions, vocalizations, and movement";
     :forSale   false ;
-    :releaseDate  "1990-11-03"^^xsd:date ;
+    :releaseDate  "1990-05-28"^^xsd:date ;
     :hasMass  "0.894"^^xsd:decimal .
 
 :Enon   a  :Robot ;
@@ -233,7 +233,7 @@
     :hasImage  "enon.jpg" ;
     :hasSkills  "assist in such tasks as providing guidance, escorting guests, transporting objects, and security patrolling";
     :forSale   true ;
-    :releaseDate  "2005-15-09"^^xsd:date ;
+    :releaseDate  "2005-09-15"^^xsd:date ;
     :hasMass  "50"^^xsd:decimal .
 
 :Nabaztag   a  :Robot ;
@@ -242,7 +242,7 @@
     :hasImage  "nabaztag.jpg" ;
     :hasSkills  "download weather forecasts, read its owner's email, stock market report, news headlines";
     :forSale   true ;
-    :releaseDate  "2009-20-11"^^xsd:date ;
+    :releaseDate  "2009-11-20"^^xsd:date ;
     :hasMass  "50"^^xsd:decimal .
 
 :Knightscope   a  :Robot ;
@@ -260,7 +260,7 @@
     :hasImage  "cyber.jpg" ;
     :hasSkills  "used to treat tumors of the pancreas, liver, prostate, spine, cancer of the throat and brain, and benign tumors";
     :forSale   false ;
-    :releaseDate  "1991-18-06"^^xsd:date ;
+    :releaseDate  "1991-06-18"^^xsd:date ;
     :hasMass  "1640"^^xsd:decimal .
 
 :DaVinci  a  :Robot ;
@@ -269,7 +269,7 @@
     :hasImage  "davinci.jpg" ;
     :hasSkills  "facilitate surgery using a minimally invasive approach, hysterectomies and prostate removals, hiatal hernia and inguinal hernia repair";
     :forSale   false ;
-    :releaseDate  "2001-15-11"^^xsd:date ;
+    :releaseDate  "2001-11-15"^^xsd:date ;
     :hasMass  "4800"^^xsd:decimal .
 
     

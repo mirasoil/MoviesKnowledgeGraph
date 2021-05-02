@@ -117,12 +117,12 @@ function getDetails(id) {
                   )
                   .append($('<td>')
                     // .append($('<small> Manufacturer: </small><p>'+ item.manufacturer.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small>Skills: </small><p>'+item.skills.value +'</p><small> Mass: </small><p>'+item.mass.value + ' kg</p><small>For sale: </small>'+(item.sale.value) ? '<p>Yes</p>' : '<p>No</p>'+'</p>'))
-                    .append($('<small> Manufacturer: </small><p>'+ item.manufacturer.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small>Skills: </small><p>'+item.skills.value +'</p><small> Mass: </small><p>'+item.mass.value + ' kg</p>'))
+                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + item.releaseDate.value +'</small><br><small><b>Skills: </b>'+item.skills.value +'</small><br><small> <b>Mass: </b>'+item.mass.value + ' kg</small></p>'))
                   )
                 )     
         }
         let button = document.querySelector('.de-inserat');
-        button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul categoriei => inserarea se face pe baza atributului
+        // button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
     })   
     }
   });
