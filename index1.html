@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Robots</title>
+    <title>Semantic Web Project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,13 +11,13 @@
 </head>
 <body>
 <header>
-  <h2>Robots by Categories</h2>
+  <h2>Semantic Web Project</h2>
 </header>
 <div class="container">
-   <button class="btn btn-info my-4" onclick="showList()">Show Categories</button>  
+   <button class="btn btn-info my-4" onclick="showList()">Afișează componente</button>  
   <section>
     <div id="components">
-      <label id="comp-label">Categories</label>
+      <label id="comp-label">Actors</label>
       <hr>
       <ul id="lista">
         
@@ -25,13 +25,13 @@
     </div>
     
     <div id="component-card">
-      <h3 id="c-name">Robots</h3><hr>
+      <h3 id="c-name">Movies</h3><hr>
       <table id="tableId">
         <thead>
           <tr>
-            <th class="text-center" width="10%">Name</th>
-            <th class="text-center" width="10%">Image</th>
-            <th class="text-center" width="30%">Infos</th>
+            <th class="text-center" width="10%">Denumire</th>
+            <th class="text-center" width="10%">Imagine</th>
+            <th class="text-center" width="10%">Informatii</th>
           </tr>
          </thead>
          <tbody>
@@ -43,17 +43,17 @@
     
   </section>
   <form id="insertForm">
-    <h4 class="my-4">Insert new robot</h4>
+    <h4 class="my-4">Formular inserare film</h4>
     <div class="form-group">
-      <label for="denumire">Name</label>
+      <label for="denumire">Denumire</label>
       <input type="text" class="form-control" id="denumire" placeholder="Denumire">
     </div>
     <div class="form-group">
-      <label for="skills">Skills</label>
-      <input type="text" class="form-control" id="skills" placeholder="Skills">
+      <label for="buget">Buget</label>
+      <input type="number" class="form-control" id="buget" placeholder="Buget">
     </div>
     <!-- <button class="btn btn-primary de-inserat" onclick="trimite(this.id)">Insereaza</button> -->
-    <button class="btn btn-primary de-inserat" onclick="insertRobot(this.id)">Insert</button>
+    <button class="btn btn-primary de-inserat" onclick="insereazaFilm(this.id)">Insereaza</button>
   </form>
 
 <script>
@@ -66,71 +66,84 @@
   }
 }
 
-bringCategories();
+bringActors();
 
-function bringCategories() {
-  let url = 'select.php';
+function bringActors() {
+  let url = 'select2.php';
 
   $.ajax({
     type: "GET",
     url: url,
 	 success: function (response) {
      let final = JSON.parse(response)
-    //  console.log(final.results.bindings);
+     
     final.results.bindings.forEach((item, index)=>{
-      $( "#lista" ).append( "<li class='mt-4'><a href='#' onclick='getDetails(this.id)' id='"+item.categorie.value+ "' class='text-decoration-none text-dark' ><b>" + item['nume'].value + "</b></a> </li> "  );
+      $( "#lista" ).append( "<li class='mt-4'><a href='#' onclick='getDetails(this.id)' id='"+item.subiect.value+ "' class='text-decoration-none text-dark' ><b>" + item['nume'].value + "</b></a> </li> "  );
       })
     }
   });
 }
 
-
-//needs second check on rdfs:label
-function getDetails(id) {
+function getDetails( id) {
   console.log(id);
-  let url = "query.php";
+  let url = "query1.php";
   $.ajax({
     type: "POST",
     url:url,
     data: {"id": id },
     success: function (response){
       let final = JSON.parse(response);
-      console.log(final.results);
       $('#tableId').find('tbody')
           .empty();
 
       final.results.bindings.forEach((item, index)=>{   
         console.log(item);
-        if (item.numeRobot) { 
-          s = item.numeRobot.value;
+        if (item.buget && item.director && item.releaseDate &&  item.image.value) {   //buget = OPTIONAL
+          s = item.movieTitle.value;
           id = s.split(" ").join("");  //titlul filmelor il transformam in id prin eliminarea spatiilor si concatenarea cuvintelor
 
              $('#tableId').find('tbody')
-                .append($(`<tr id=${id} class="border_bottom">`)
+                .append($(`<tr id=${id}>`)
                   .append($('<td class="mt-3 text-center">')
-                    .append(`<p class='mt-4'><b><i>${item.numeRobot.value} </i></b></p><br><button class='btn btn-danger' id='${item.id.value}' onclick="deleteRobot(this.id, '${id}')">Sterge</button></div>`)
+                    .append(`<p class='mt-4'><b><i>${item.movieTitle.value} </i></b></p><br><button class='btn btn-danger' id='${item.movie.value}' onclick="deleteMovie(this.id, '${id}')">Sterge</button></div>`)
                   )
                   .append($('<td class="text-center">')
                     .append($('<img height="150" width="250">')
-                      .attr('src', 'images/'+item.image.value)
+                      .attr('src', 'img/'+item.image.value)
                     )
                   )
                   .append($('<td>')
-                    // .append($('<small> Manufacturer: </small><p>'+ item.manufacturer.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small>Skills: </small><p>'+item.skills.value +'</p><small> Mass: </small><p>'+item.mass.value + ' kg</p><small>For sale: </small>'+(item.sale.value) ? '<p>Yes</p>' : '<p>No</p>'+'</p>'))
-                    .append($('<small> Manufacturer: </small><p>'+ item.manufacturer.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small>Skills: </small><p>'+item.skills.value +'</p><small> Mass: </small><p>'+item.mass.value + ' kg</p>'))
+                    .append($('<small> Director: </small><p>'+ item.director.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small> Buget: </small><p>'+item.buget.value + '</p>'))
                   )
-                )     
+                )
+                
+        } else {
+
+          $('#tableId').find('tbody')
+                .append($(`<tr id=${id}>`)
+                  .append($('<td class="mt-3 text-center">')
+                    .append(`<p class='mt-4'><b>${item.movieTitle.value} </b></p><br><button class='btn btn-danger' id='${item.movie.value}' onclick="deleteMovie(this.id, '${id}')">Sterge</button></div>`)
+                  )
+                  .append($('<td class="text-center">')
+                    .append($('<img height="150" width="250">')
+                      .attr('src', 'img/'+item.image.value)
+                    )
+                  )
+                  .append($('<td>')
+                    .append($('<small> Director: </small><p>'+ item.director.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p>'))
+                  )
+                )
+
         }
         let button = document.querySelector('.de-inserat');
-        button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul categoriei => inserarea se face pe baza atributului
-    })   
+        button.setAttribute("id", item.actor.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
+      })
+      
     }
   });
 }
 
-//deletes using unique uri
-function deleteRobot(uri, sterge) {
-  console.log(uri, sterge);
+function deleteMovie(uri, sterge) {
   $.ajax({
     type: "POST",
     url:"delete.php",
@@ -143,11 +156,11 @@ function deleteRobot(uri, sterge) {
   })
 }
 
-function insertRobot(uri) {
+function insereazaFilm(uri) {
   let url = "insert.php";
-console.log(uri)
+
   let uriNou = $('#denumire').val();
-  let skills = $('#skills').val();
+  let buget = $('#buget').val();
 
   $.ajax({
     type: "POST",
@@ -155,7 +168,7 @@ console.log(uri)
     data: {
       uri: uri,
       uriNou: uriNou,
-      skills: skills
+      buget: buget
     },
     success: function(response) {
       console.log(response);

@@ -75,3 +75,5 @@ section::after {
   float: right;
 }
 
+table{border-collapse:collapse}
+tr{border:1px solid black}
