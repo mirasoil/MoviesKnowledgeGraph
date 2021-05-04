@@ -34,7 +34,7 @@ if($rezultatRestructurat === true) {
     // print 'Acest URI exita deja in baza de cunostinte';
     // return json_encode(array('statusCode' => 201 , 'error' => 'Acest URI exita deja in baza de cunostinte'));
     header("Content-Type: application/json; charset=utf-8", true);
-    echo json_encode(array('status' => 201 , 'error' => 'Acest URI exita deja in baza de cunostinte'));
+    echo json_encode(array('status' => 201 , 'error' => 'exista deja'));
     
 } else {
     $client=new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/robograph/statements");
