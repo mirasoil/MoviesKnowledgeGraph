@@ -71,7 +71,7 @@
     :hasSkills  "math, spelling" ;
     :forSale   true ;
     :releaseDate  "1978-06-25"^^xsd:date ;
-    :hasMass  "1.133"^^xsd:decimal .
+    :hasMass  1.133^^xsd:decimal .
 
 :Hero  a  :Robot ;
     rdfs:label "HERO: Heathkit Educational RObot" ;

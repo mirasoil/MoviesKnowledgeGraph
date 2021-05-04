@@ -45,16 +45,39 @@
   <form id="insertForm">
     <h4 class="my-4">Insert new robot</h4>
     <div class="form-group">
-      <label for="denumire">Name</label>
+      <label for="denumire">Name</label> <!--uri + label-->
       <input type="text" class="form-control" id="denumire" placeholder="Denumire">
+    </div>
+    <div class="form-group">
+      <label for="manufacturer">Manufacturer</label>
+      <input type="text" class="form-control" id="manufacturer" placeholder="Manufacturer">
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <br>
+      <input type="file" name="image" class="p-0" id="image">
     </div>
     <div class="form-group">
       <label for="skills">Skills</label>
       <input type="text" class="form-control" id="skills" placeholder="Skills">
     </div>
+    <div class="form-group">
+      <label for="sales">Sales</label><br>
+      <input type="radio"  class="saleValue" name="saleValue" value="yes" id="saleYes" /> Yes 
+      <input type="radio"  class="saleValue" name="saleValue" value="no" id="saleNo" /> No
+    </div>
+    <div class="form-group">
+      <label for="releaseDate">Release Date</label>
+      <input type="date" class="form-control" id="releaseDate" placeholder="Release Date">
+    </div>
+    <div class="form-group">
+      <label for="mass">Mass</label>
+      <input type="number" class="form-control" id="mass" placeholder="Mass">
+    </div>
     <!-- <button class="btn btn-primary de-inserat" onclick="trimite(this.id)">Insereaza</button> -->
     <button class="btn btn-primary de-inserat" onclick="insertRobot(this.id)">Insert</button>
   </form>
+  <br>
 
 <script>
   function showList() {
@@ -116,13 +139,12 @@ function getDetails(id) {
                     )
                   )
                   .append($('<td>')
-                    // .append($('<small> Manufacturer: </small><p>'+ item.manufacturer.value+ '</p><small>Release date: </small><p>' + item.releaseDate.value +'</p><small>Skills: </small><p>'+item.skills.value +'</p><small> Mass: </small><p>'+item.mass.value + ' kg</p><small>For sale: </small>'+(item.sale.value) ? '<p>Yes</p>' : '<p>No</p>'+'</p>'))
-                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + item.releaseDate.value +'</small><br><small><b>Skills: </b>'+item.skills.value +'</small><br><small> <b>Mass: </b>'+item.mass.value + ' kg</small></p>'))
+                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + item.releaseDate.value +'</small><br><small><b>Skills: </b>'+item.skills.value +'</small><br><small> <b>Mass: </b>'+item.mass.value + ' kg</small><br><small> <b>Sale: </b>'+ ((item.sale.value == "true") ? 'Yes' : 'No') + '</small></p>'))
                   )
                 )     
         }
         let button = document.querySelector('.de-inserat');
-        // button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
+        button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
     })   
     }
   });
@@ -143,27 +165,54 @@ function deleteRobot(uri, sterge) {
   })
 }
 
-function insertRobot(uri) {
+function insertRobot(category) {
+  //uri = id categorie
   let url = "insert.php";
-console.log(uri)
+console.log(category)
   let uriNou = $('#denumire').val();
+  let manufacturer = $('#manufacturer').val();
+  let filename = $('input[type="file"]').val().split("\\");  //escaping
+  let image = filename[filename.length - 1];  
+  // console.log(image);
   let skills = $('#skills').val();
+  let sales = $(".saleValue:checked").val();
+  let releaseDate = $('#releaseDate').val();
+  // console.log(releaseDate)
+  let mass = $('#mass').val();
 
   $.ajax({
     type: "POST",
     url:url,
+    dataType: "json",
     data: {
-      uri: uri,
+      category: category,
       uriNou: uriNou,
-      skills: skills
+      manufacturer: manufacturer,
+      image: image,
+      skills: skills,
+      sales: sales,
+      releaseDate: releaseDate,
+      mass: mass
     },
-    success: function(response) {
-      console.log(response);
-      // if(response.status == 202) {
-      //   alert('Film inserat cu succes');
-      // } else {
-      //   alert('URI-ul exista deja in baza de cunostinte');
-      // }
+    // success: function(response) {
+    //   console.log(response.responseText);
+    //   // var dataResult = JSON.parse(response);
+    //   if(response.status==200){
+    //       alert('ok');
+    //       console.log(response.responseText);
+    //   } else {
+    //       alert('Acest URI exista deja in baza de date')
+    //       console.log(response.responseText)
+    //   }
+    // }
+    success : function(data) {
+        console.log(data.responseText);
+        alert(data);
+    },
+    error: function(error)
+    {
+        console.log(error.responseText);
+        alert('Acest URI exista deja in baza de date');
     }
   })
 }

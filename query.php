@@ -23,16 +23,19 @@ PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>  
 PREFIX wd: <http://www.wikidata.org/entity/>  
 
-SELECT ?id ?numeRobot ?image ?releaseDate ?skills ?manufacturer ?mass 
+SELECT ?id ?category ?numeRobot ?image ?releaseDate ?skills ?manufacturer ?mass ?sale
 FROM :robots FROM :samenessgraph FROM :categories  WHERE {
-    <".$id."> a :Category; :hasRobots [:idRobot ?id] .                            
+    <".$id."> a :Category; :hasRobots [:idRobot ?id] ; rdfs:label ?label . 
+    ?label ^rdfs:label ?category .                            
   ?id :hasImage ?image .   
   ?id :releaseDate ?releaseDate .  
   ?id :hasSkills ?skills .   
   ?id :manufacturer ?manufacturer .   
     ?id :hasMass ?mass . 
+    ?id :forSale ?sale . 
   OPTIONAL { ?id owl:sameAs ?robot } 
-  BIND(COALESCE(?robot, \"unknown\") as ?input) OPTIONAL {     
+  BIND(COALESCE(?robot, \"unknown\") as ?input) 
+  OPTIONAL {     
     SERVICE <https://query.wikidata.org/sparql> {               
       ?input rdfs:label ?wdName .              
       FILTER(lang(?numeRobot)=\"en\")          
@@ -40,6 +43,7 @@ FROM :robots FROM :samenessgraph FROM :categories  WHERE {
   }     
   OPTIONAL { ?id rdfs:label ?label }     
   BIND(COALESCE(?wdName, ?label, strafter(str(?id), str(:))) as ?numeRobot) }";
+ 
 
 $interogare=urlencode($query);
 //  print $interogare;
