@@ -140,7 +140,7 @@ function getDetails(id) {
                     )
                   )
                   .append($('<td>')
-                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + ((item.releaseDate.value !== "1999-01-01") ? item.releaseDate.value : '') +'</small><br><small><b>Skills: </b>'+ ((item.skills.value !== "unknown") ? item.skills.value : '')+'</small><br><small> <b>Mass: </b>'+((item.mass.value == 0) ? ' altceva ' : item.mass.value +' kg') + '</small><br><small> <b>Sale: </b>'+ ((item.sale.value !== "unknown") ? ((item.sale.value == "true") ? "Yes" : "No") : '') + '</small></p>'))
+                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + ((item.releaseDate.value !== "1999-01-01") ? item.releaseDate.value : '') +'</small><br><small><b>Skills: </b>'+ ((item.skills.value !== "unknown") ? item.skills.value : '')+'</small><br><small> <b>Mass: </b>'+((item.mass.value == 0) ? ' ' : item.mass.value +' kg') + '</small><br><small> <b>Sale: </b>'+ ((item.sale.value !== "unknown") ? ((item.sale.value == "true") ? "Yes" : "No") : '') + '</small></p>'))
                   )
                 )   
              
@@ -192,9 +192,9 @@ function insertRobot(category) {
     sale = "unknown";
   } else {
     if (salesInitial == "Yes") {
-      sale = true;
+      sale = "true";
     } else {
-      sale = false;
+      sale = "false";
     }
   }
   let releaseDateInitial = $('#releaseDate').val();
@@ -211,6 +211,7 @@ function insertRobot(category) {
   }
   console.log('1', image, '2', skills, '3', sale, '4',  releaseDate, '5', mass)
 
+  if (uriNou != "" && manufacturer != "") {
   $.ajax({
     type: "POST",
     url:url,
@@ -235,6 +236,10 @@ function insertRobot(category) {
     },
     
   });
+} else {
+    alert("Introduceti nume si manufacturer");
+  };
+
 }
 
 </script>
