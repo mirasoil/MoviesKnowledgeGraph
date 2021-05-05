@@ -109,46 +109,6 @@ function bringCategories() {
 
 
 //needs second check on rdfs:label
-function getDetailsOk(id) {
-  console.log(id);
-  let url = "query.php";
-  $.ajax({
-    type: "POST",
-    url:url,
-    data: {"id": id },
-    success: function (response){
-      let final = JSON.parse(response);
-      console.log(final.results);
-      $('#tableId').find('tbody')
-          .empty();
-
-      final.results.bindings.forEach((item, index)=>{   
-        console.log(item);
-        if (item.numeRobot) { 
-          s = item.numeRobot.value;
-          id = s.split(" ").join("");  //titlul filmelor il transformam in id prin eliminarea spatiilor si concatenarea cuvintelor
-
-             $('#tableId').find('tbody')
-                .append($(`<tr id=${id} class="border_bottom">`)
-                  .append($('<td class="mt-3 text-center">')
-                    .append(`<p class='mt-4'><b><i>${item.numeRobot.value} </i></b></p><br><button class='btn btn-danger' id='${item.id.value}' onclick="deleteRobot(this.id, '${id}')">Sterge</button></div>`)
-                  )
-                  .append($('<td class="text-center">')
-                    .append($('<img height="150" width="250">')
-                      .attr('src', 'images/'+item.image.value)
-                    )
-                  )
-                  .append($('<td>')
-                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + item.releaseDate.value +'</small><br><small><b>Skills: </b>'+item.skills.value +'</small><br><small> <b>Mass: </b>'+item.mass.value + ' kg</small><br><small> <b>Sale: </b>'+ ((item.sale.value == "true") ? 'Yes' : 'No') + '</small></p>'))
-                  )
-                )     
-        }
-        let button = document.querySelector('.de-inserat');
-        button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
-    })   
-    }
-  });
-}
 function getDetails(id) {
   console.log(id);
   let url = "query.php";
@@ -265,32 +225,16 @@ function insertRobot(category) {
       releaseDate: releaseDate,
       mass: mass
     },
-    // success: function(response) {
-    //   console.log(response.responseText);
-    //   // var dataResult = JSON.parse(response);
-    //   if(response.status==200){
-    //       alert('ok');
-    //       console.log(response.responseText);
-    //   } else {
-    //       alert('Acest URI exista deja in baza de date')
-    //       console.log(response.responseText)
-    //   }
-    // }
-    success : function(data) {
-      alert(data);
-      $('#tableId').load();
-      var dataResult = JSON.parse(data);
-      if(dataResult.status==200){
-          alert('ok');
-          console.log(dataResult.success);
-      }
+    success: function(data) {
+        if(data.status===true){
+          categ = $(".de-inserat").attr('id');
+          getDetails(categ);
+        } else {
+          alert(data.message);
+        }
     },
-    error: function(error)
-    {
-        console.log(error.responseText);
-        alert('Acest URI exista deja in baza de date');
-    }
-  })
+    
+  });
 }
 
 </script>

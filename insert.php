@@ -30,11 +30,16 @@ $rezultatJSON=$clienthttp->request()->getBody();
 
 $rezultatRestructurat=new EasyRdf\Sparql\Result($rezultatJSON,"application/sparql-results+json");
 // print $rezultatRestructurat;
-if($rezultatRestructurat === true) {
+if($rezultatRestructurat == "true") {
     // print 'Acest URI exita deja in baza de cunostinte';
     // return json_encode(array('statusCode' => 201 , 'error' => 'Acest URI exita deja in baza de cunostinte'));
-    header("Content-Type: application/json; charset=utf-8", true);
-    echo json_encode(array('status' => 201 , 'error' => 'exista deja'));
+    // header("Content-Type: application/json; charset=utf-8", true);
+    // echo json_encode(array('status' => 201 , 'error' => 'exista deja'));
+    $response_array = array("error"=> false,
+                            "status" => false,
+                            "message" => 'Acest URI exita deja in baza de cunostinte');
+    header('Content-Type: application/json');
+    echo json_encode($response_array);die();
     
 } else {
     $client=new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/robograph/statements");
@@ -53,7 +58,14 @@ if($rezultatRestructurat === true) {
     $rezultat=$client->update($interogare);
 
     // echo 'Rezultat '.json_encode($rezultat);
-    header("Content-Type: application/json; charset=utf-8", true);
-    echo json_encode(array('status' => 200 , 'success' => 'inserat'));
+    // header("Content-Type: application/json; charset=utf-8", true);
+    // echo json_encode(array('status' => 200 , 'success' => 'inserat'));
+    $response_array = array("success"=> true,
+                                "status" => true,
+                                "message" => 'Inserat cu succes');
+        header('Content-Type: application/json');
+        echo json_encode($response_array);die();
+           
+
     
 }
