@@ -16,6 +16,7 @@
 <div class="container">
    <button class="btn btn-info my-4" onclick="showList()">Show Categories</button>  
   <section>
+    <div id="content" style="display:none;">
     <div id="components">
       <label id="comp-label">Categories</label>
       <hr>
@@ -25,7 +26,6 @@
     </div>
     
     <div id="component-card">
-      <h3 id="c-name">Robots</h3><hr>
       <table id="tableId">
         <thead>
           <tr>
@@ -40,13 +40,14 @@
         </tbody>
       </table>
     </div>
+  </div>
     
   </section>
   <form id="insertForm">
     <h4 class="my-4">Insert new robot</h4>
     <div class="form-group">
       <label for="denumire">Name*</label> <!--uri + label-->
-      <input type="text" class="form-control" id="denumire" placeholder="Denumire" required>
+      <input type="text" class="form-control" id="denumire" placeholder="Robot name" required>
     </div>
     <div class="form-group">
       <label for="manufacturer">Manufacturer*</label>
@@ -74,14 +75,13 @@
       <label for="mass">Mass</label>
       <input type="number" class="form-control" id="mass" placeholder="Mass">
     </div>
-    <!-- <button class="btn btn-primary de-inserat" onclick="trimite(this.id)">Insereaza</button> -->
-    <button class="btn btn-primary de-inserat" onclick="insertRobot(this.id)">Insert</button>
+    <button class="btn btn-primary de-inserat" type="button" onmouseover="insertRobot(this.id)">Insert</button>
   </form>
   <br>
 
 <script>
   function showList() {
-   var x = document.getElementById("components");
+   var x = document.getElementById("content");
   if (x.style.display === "none") {
     x.style.display = "block";
   } else {
@@ -211,7 +211,7 @@ function insertRobot(category) {
   }
   console.log('1', image, '2', skills, '3', sale, '4',  releaseDate, '5', mass)
 
-  if (uriNou != "" && manufacturer != "") {
+  if (uriNou != "" && manufacturer != "" && $(".de-inserat").attr('id') != null) {
   $.ajax({
     type: "POST",
     url:url,
@@ -230,15 +230,21 @@ function insertRobot(category) {
         if(data.status===true){
           categ = $(".de-inserat").attr('id');
           getDetails(categ);
+          return false;
         } else {
           alert(data.message);
         }
     },
     
   });
-} else {
-    alert("Introduceti nume si manufacturer");
-  };
+} else if ( $(".de-inserat").attr('id') == null){
+    alert("Alegeti categoria");
+  }
+  else {
+      alert("Introduceti nume si manufacturer");
+  }
+  return false;
+
 
 }
 

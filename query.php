@@ -37,7 +37,6 @@ FROM :robots FROM :samenessgraph FROM :categories  WHERE {
  
 
 $interogare = urlencode($query);
-//  print $interogare;
 
 $clienthttp = new EasyRdf\Http\Client($adresa.$interogare);
 

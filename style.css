@@ -10,6 +10,7 @@ body {
 
 /* Style the header */
 header {
+  background-image: url('images/bck.jpg');
   padding: 30px;
   text-align: center;
   font-size: 35px;
@@ -20,7 +21,7 @@ header {
 #components {
   float: left;
   width: 30%;
-  background: #ccc;
+  background: white;
   padding: 20px;
 }
 
@@ -34,7 +35,7 @@ header {
   float: left;
   padding: 20px;
   width: 70%;
-  background-color: #f1f1f1;
+  background-color: white;
   height: auto;
 }
 
