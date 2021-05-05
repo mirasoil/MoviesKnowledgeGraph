@@ -8,7 +8,7 @@ $label = $uriNou;
 $manufacturer = $_POST['manufacturer'];
 $image = $_POST['image'];
 $skills = $_POST['skills'];
-$sales = $_POST['sales'];
+$sale = $_POST['sale'];
 $releaseDate = $_POST['releaseDate'];
 $mass = $_POST['mass'];
 
@@ -40,8 +40,9 @@ if($rezultatRestructurat === true) {
     $client=new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/robograph/statements");
 
     $interogare="PREFIX : <http://ispasteodora.ro#> 
-    INSERT {GRAPH :robots { ?idNou a :Robot ; rdfs:label \" ".$label." \" ; :manufacturer \" ".$manufacturer." \" ; 
-        :hasImage \" ".$image." \" ;  :hasSkills  \" ".$skills." \" ; :forSale \" ".$sales." \" ; :releaseDate \" ".$releaseDate." \" ; :hasMass ".$mass." } 
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
+    INSERT {GRAPH :robots { ?idNou a :Robot ; rdfs:label \"".$label."\" ; :manufacturer \"".$manufacturer."\" ; 
+        :hasImage \"".$image."\" ;  :hasSkills  \"".$skills."\" ; :forSale \"".$sale."\" ; :releaseDate \"".$releaseDate."\"^^xsd:date ; :hasMass \"".$mass."\"^^xsd:decimal } 
         GRAPH :categories {<".$category."> :hasRobots [:idRobot ?idNou]}
     } 
     WHERE { 
@@ -51,6 +52,8 @@ if($rezultatRestructurat === true) {
 
     $rezultat=$client->update($interogare);
 
-    echo 'Rezultat '.json_encode($rezultat);
+    // echo 'Rezultat '.json_encode($rezultat);
+    header("Content-Type: application/json; charset=utf-8", true);
+    echo json_encode(array('status' => 200 , 'success' => 'inserat'));
     
 }
