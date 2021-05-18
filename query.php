@@ -1,22 +1,19 @@
 <?php
-
-$id = $_POST['id'];
-
 require 'vendor/autoload.php';
 
+$id = file_get_contents('php://input'); 
 
-$adresa="http://localhost:8080/rdf4j-server/repositories/robograph?query=";
+$adresa = "http://localhost:8080/rdf4j-server/repositories/grafexamen?query=";
 
-$query = "PREFIX : <http://ispasteodora.ro#>  
+$query = "PREFIX : <http://narosispas.ro#>  
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>  
 PREFIX owl: <http://www.w3.org/2002/07/owl#>  
 PREFIX wd: <http://www.wikidata.org/entity/>  
 
-SELECT ?id ?category ?numeRobot ?image ?releaseDate ?skills ?manufacturer ?mass ?sale
+SELECT ?id ?numeRobot ?image ?releaseDate ?skills ?manufacturer ?mass ?sale
 FROM :robots FROM :samenessgraph FROM :categories  WHERE {
-    <".$id."> a :Category; :hasRobots [:idRobot ?id] ; rdfs:label ?label . 
-    ?label ^rdfs:label ?category .                            
+    <".$id."> a :Category; :hasRobots [:idRobot ?id] ; rdfs:label ?label .                          
 
     ?id :hasImage ?image .   
     ?id :releaseDate ?releaseDate .  
@@ -46,7 +43,7 @@ $rezultatJSON = $clienthttp->request()->getBody();
 
  print $rezultatJSON;
 
-$rezultatRestructurat=new EasyRdf\Sparql\Result($rezultatJSON,"application/sparql-results+json");
+$rezultatRestructurat = new EasyRdf\Sparql\Result($rezultatJSON,"application/sparql-results+json");
 // print $rezultatRestructurat;
 
 return $rezultatRestructurat;

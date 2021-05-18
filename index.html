@@ -7,7 +7,10 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <!--Ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Axios-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 </head>
 <body>
 <header>
@@ -80,7 +83,8 @@
   <br>
 
 <script>
-  function showList() {
+// Displays the content div with categories and robots
+function showList() {
    var x = document.getElementById("content");
   if (x.style.display === "none") {
     x.style.display = "block";
@@ -91,40 +95,37 @@
 
 bringCategories();
 
+// Displays the categories in page 
 function bringCategories() {
   let url = 'select.php';
 
-  $.ajax({
-    type: "GET",
-    url: url,
-	 success: function (response) {
-     let final = JSON.parse(response)
-    //  console.log(final.results.bindings);
-    final.results.bindings.forEach((item, index)=>{
-      $( "#lista" ).append( "<li class='mt-4'><a href='#' onclick='getDetails(this.id)' id='"+item.categorie.value+ "' class='text-decoration-none text-dark' ><b>" + item['nume'].value + "</b></a> </li> "  );
+  axios
+    .get(url)
+    .then(response => showCategories(response))
+}
+
+function showCategories(response) {
+  //console.log(response.data.results.bindings)
+
+  response.data.results.bindings.forEach((item, index)=>{
+      $( "#lista" ).append( "<li class='mt-4'><a href='#' onclick='getDetails(this.id)' id='"+item.categorie.value+ 
+        "' class='text-decoration-none text-dark' ><b>" + item['nume'].value + "</b></a> </li> "  );
       })
-    }
-  });
 }
 
 
-//needs second check on rdfs:label
+// Get all the robots from the selected category
 function getDetails(id) {
   console.log(id);
   let url = "query.php";
-  $.ajax({
-    type: "POST",
-    url:url,
-    data: {"id": id },
-    success: function (response){
-      let final = JSON.parse(response);
-      console.log(final.results);
+  axios
+  .post(url, id)
+   .then( response => {
       $('#tableId').find('tbody')
           .empty();
 
-      final.results.bindings.forEach((item, index)=>{   
-        console.log(item);
-        // if (item.numeRobot && item.manufacturer && item.image.value !== "default.png" && item.releaseDate.value !== "1999-01-01" && item.skills.value !== "unknown" && item.mass.value !== 0 && item.sale.value !== "unknown") { 
+        response.data.results.bindings.forEach((item, index)=>{   
+        // console.log(item);
         if (item.numeRobot && item.manufacturer) { 
           s = item.numeRobot.value;
           id = s.split(" ").join("");  
@@ -132,7 +133,7 @@ function getDetails(id) {
              $('#tableId').find('tbody')
                 .append($(`<tr id=${id} class="border_bottom">`)
                   .append($('<td class="mt-3 text-center">')
-                    .append(`<p class='mt-4'><b><i>${item.numeRobot.value} </i></b></p><br><button class='btn btn-danger' id='${item.id.value}' onclick="deleteRobot(this.id, '${id}')">Sterge</button></div>`)
+                    .append(`<p class='mt-4'><b><i>${item.numeRobot.value} </i></b></p><br><button class='btn btn-danger' id='${item.id.value}' onclick="deleteRobot(this.id, '${id}')">Delete</button></div>`)
                   )
                   .append($('<td class="text-center">')
                     .append($('<img height="150" width="250">')
@@ -140,54 +141,65 @@ function getDetails(id) {
                     )
                   )
                   .append($('<td>')
-                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ '</small><br><small><b>Release date: </b>' + ((item.releaseDate.value !== "1999-01-01") ? item.releaseDate.value : '') +'</small><br><small><b>Skills: </b>'+ ((item.skills.value !== "unknown") ? item.skills.value : '')+'</small><br><small> <b>Mass: </b>'+((item.mass.value == 0) ? ' ' : item.mass.value +' kg') + '</small><br><small> <b>Sale: </b>'+ ((item.sale.value !== "unknown") ? ((item.sale.value == "true") ? "Yes" : "No") : '') + '</small></p>'))
+                    .append($('<p><small><b> Manufacturer: </b>'+ item.manufacturer.value+ 
+                      '</small><br><small><b>Release date: </b>' + ((item.releaseDate.value !== "1999-01-01") ? item.releaseDate.value : '') +
+                      '</small><br><small><b>Skills: </b>' + ((item.skills.value !== "unknown") ? item.skills.value : '') +
+                      '</small><br><small> <b>Mass: </b>' +((item.mass.value == 0) ? ' ' : item.mass.value +' kg') + 
+                      '</small><br><small> <b>For sale: </b>' + ((item.sale.value !== "unknown") ? ((item.sale.value == "true") ? "Yes" : "No") : '') + '</small></p>'))
                   )
                 )   
              
         } 
-        let button = document.querySelector('.de-inserat');
-        button.setAttribute("id", item.category.value);   //setam id-ul butonului ca fiind uri-ul actorului => inserarea se face pe baza atributului
     })   
-    }
+  })
+  let button = document.querySelector('.de-inserat');
+  button.setAttribute("id", id);            //setam id-ul butonului ca fiind uri-ul categoriei => inserarea se face pe baza atributului
+    
+}
+
+// Deletes using robot's uri
+function deleteRobot(uri, sterge) {
+  console.log(uri, sterge);
+
+  axios.delete('delete.php', {
+     data: uri 
+    })
+    .then(res => {
+      if (res.status === 200) {
+        $("#"+sterge).remove();
+      } else {
+        alert('An error has occured')
+      }
   });
 }
 
-//deletes using unique uri
-function deleteRobot(uri, sterge) {
-  console.log(uri, sterge);
-  $.ajax({
-    type: "POST",
-    url:"delete.php",
-    data: {
-      uri: uri
-    },
-    success: function(response) {
-      $("#"+sterge).remove();
-    }
-  })
-}
 
+// Insert robot - if optional data is not inserted some default values are configured 
 function insertRobot(category) {
   //uri = id categorie
   let url = "insert.php";
-  console.log(category)
+  //console.log(category)
   let uriNou = $('#denumire').val();
   let manufacturer = $('#manufacturer').val();
   let filename = $('input[type="file"]').val().split("\\");  
-  let imageInitial = filename[filename.length - 1];  
+  let imageInitial = filename[filename.length - 1]; 
+
+  //if user chooses to insert only the required values we store a default value for every remaining property 
   if(imageInitial == '') {
     image = "default.png";
   } else {
     image = imageInitial;
   }
+
   let skillsInitial = $('#skills').val();
   if(skillsInitial == '') {
     skills = "unknown";
   } else {
     skills = skillsInitial;
   }
+
   let salesInitial = $(".saleValue:checked").val();
-  console.log(salesInitial)
+  //console.log(salesInitial)
   if(!salesInitial) {
     sale = "unknown";
   } else {
@@ -197,26 +209,25 @@ function insertRobot(category) {
       sale = "false";
     }
   }
+
   let releaseDateInitial = $('#releaseDate').val();
   if(releaseDateInitial == '') {
     releaseDate = "1999-01-01";
   } else {
     releaseDate = releaseDateInitial;
   }
+
   let massInitial = $('#mass').val();
   if(massInitial == '') {
     mass = 0;
   } else {
     mass = massInitial;
   }
-  console.log('1', image, '2', skills, '3', sale, '4',  releaseDate, '5', mass)
+  // console.log('1', image, '2', skills, '3', sale, '4',  releaseDate, '5', mass)
 
   if (uriNou != "" && manufacturer != "" && $(".de-inserat").attr('id') != null) {
-  $.ajax({
-    type: "POST",
-    url:url,
-    dataType: "json",
-    data: {
+  axios
+  .post(url, {
       category: category,
       uriNou: uriNou,
       manufacturer: manufacturer,
@@ -225,29 +236,27 @@ function insertRobot(category) {
       sale: sale,
       releaseDate: releaseDate,
       mass: mass
-    },
-    success: function(data) {
-        if(data.status===true){
+    
+    })
+    .then(response => {
+      // console.log(response.data)
+        if(response.data.success){
+          alert(response.data.message);
           categ = $(".de-inserat").attr('id');
           getDetails(categ);
           return false;
         } else {
-          alert(data.message);
+          alert(response.data.message);
         }
-    },
-    
-  });
-} else if ( $(".de-inserat").attr('id') == null){
-    alert("Alegeti categoria");
-  }
-  else {
-      alert("Introduceti nume si manufacturer");
-  }
-  return false;
-
-
+    })
+  } else if ( $(".de-inserat").attr('id') == null){
+      alert("Please choose category first!");
+    }
+    else {
+        alert("Please insert the required properties: name and manufacturer!");
+    }
+    return false;
 }
-
 </script>
 </body>
 </html>

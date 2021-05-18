@@ -2,12 +2,11 @@
 
 require 'vendor/autoload.php';
 
-$uri = $_POST['uri'];
+$uri = file_get_contents('php://input');
 
+$client = new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/grafexamen/statements");
 
-$client=new EasyRdf\Sparql\Client("http://localhost:8080/rdf4j-server/repositories/robograph/statements");
-
-$interogare="PREFIX : <http://ispasteodora.ro#>  
+$query = "PREFIX : <http://narosispas.ro#>  
 DELETE WHERE {
   GRAPH :robots {
     <".$uri."> ?x ?y 
@@ -17,8 +16,8 @@ DELETE WHERE {
     ?p :idRobot <".$uri.">
   }
 }";
-print $interogare;
+print $query;
 
-$rezultat=$client->update($interogare);
+$result = $client->update($query);
 
-print $rezultat;
+print $result;
