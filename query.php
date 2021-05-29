@@ -5,6 +5,10 @@ $id = file_get_contents('php://input');
 
 $adresa = "http://localhost:8080/rdf4j-server/repositories/grafexamen?query=";
 
+// If the URI has owl:sameAs property we display the label from wikidata (in english)
+// Else if the URI was inserted by the user, it gets a new local label which is then displayed in front-end
+// COALESCE takes the first non-null value. If no value is set for wikidata label or local label (extreme case), then it takes the
+// robot uri after the : (example if uri is :NAO the label will be NAO)
 $query = "PREFIX : <http://narosispas.ro#>  
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>  

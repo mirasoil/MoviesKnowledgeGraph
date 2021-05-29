@@ -10,7 +10,9 @@ body {
 
 /* Style the header */
 header {
-  background-image: url('images/bck.jpg');
+  background-image: url('images/bck.png');
+  background-repeat: no-repeat;
+  background-size: 80% 100%;
   padding: 30px;
   text-align: center;
   font-size: 35px;
@@ -76,5 +78,9 @@ section::after {
   float: right;
 }
 
-table{border-collapse:collapse}
-tr{border:1px solid black}
+table {
+  border-collapse:collapse
+}
+tr {
+  border:1px solid black
+}

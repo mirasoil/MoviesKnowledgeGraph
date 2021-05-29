@@ -16,8 +16,9 @@ DELETE WHERE {
     ?p :idRobot <".$uri.">
   }
 }";
-print $query;
 
 $result = $client->update($query);
 
 print $result;
+
+?>

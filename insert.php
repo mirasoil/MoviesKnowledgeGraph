@@ -3,16 +3,16 @@
 require 'vendor/autoload.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
+
 $category = $data['category'];
-$uriNou = $data['uriNou'];       // New label
-$label = $uriNou;
+$uriNou = $data['uriNou'];       // New uri
+$label = $uriNou;                // The actual label of the robot
 $manufacturer = $data['manufacturer'];
 $image = $data['image'];
 $skills = $data['skills'];
 $sale = $data['sale'];
 $releaseDate = $data['releaseDate'];
 $mass = $data['mass'];
-
 
 $adresa = "http://localhost:8080/rdf4j-server/repositories/grafexamen?query=";
 
@@ -29,6 +29,7 @@ $rezultatJSON = $clienthttp->request()->getBody();
 
 $rezultatRestructurat = new EasyRdf\Sparql\Result($rezultatJSON,"application/sparql-results+json");
 
+// If query returns true => the uri already exits 
 if($rezultatRestructurat == "true") {
     $response_array = array("error"=> false,
                             "status" => false,
@@ -54,10 +55,11 @@ if($rezultatRestructurat == "true") {
     $rezultat = $client->update($interogare);
 
     $response_array = array("success"=> true,
-                                "status" => true,
-                                "message" => 'Successfully inserted!');
-        header('Content-Type: application/json');
-        echo json_encode($response_array);
-        die();
-  
+                            "status" => true,
+                            "message" => 'Successfully inserted!');
+    header('Content-Type: application/json');
+    echo json_encode($response_array);
+    die();
+
 }
+?>
