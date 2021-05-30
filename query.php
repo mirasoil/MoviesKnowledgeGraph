@@ -17,20 +17,20 @@ PREFIX wd: <http://www.wikidata.org/entity/>
 
 SELECT ?id ?numeRobot ?image ?releaseDate ?skills ?manufacturer ?mass ?sale
 FROM :robots FROM :samenessgraph FROM :categories  WHERE {
-    <".$id."> a :Category; :hasRobots [:idRobot ?id] ; rdfs:label ?label .                          
+    <".$id."> a :Category; :hasRobots [:idRobot ?id] .                          
 
-    ?id :hasImage ?image .   
-    ?id :releaseDate ?releaseDate .  
-    ?id :hasSkills ?skills .   
-    ?id :manufacturer ?manufacturer .   
-    ?id :hasMass ?mass . 
-    ?id :forSale ?sale . 
+    ?id :hasImage ?image ;   
+        :releaseDate ?releaseDate ;  
+        :hasSkills ?skills ;   
+        :manufacturer ?manufacturer ;   
+        :hasMass ?mass ; 
+        :forSale ?sale . 
     OPTIONAL { ?id owl:sameAs ?robot } 
   BIND(COALESCE(?robot, \"unknown\") as ?input) 
   OPTIONAL {     
     SERVICE <https://query.wikidata.org/sparql> {               
       ?input rdfs:label ?wdName .              
-      FILTER(lang(?numeRobot)=\"en\")          
+      FILTER(lang(?wdName)=\"en\")          
     }          
   }     
   OPTIONAL { ?id rdfs:label ?localLabel }     
